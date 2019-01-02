@@ -7,13 +7,23 @@ var environments = {};
 
 // Staging (default)
 environments.staging = {
-  port: 3000,
+  httpPort: 3000,
+
+  httpsPort: 3001,
+  httpsKey: './https/key.pem',
+  httpsCert: './https/cert.pem',
+
   envName: 'staging',
 };
 
 // Production
 environments.production = {
-  port: 5000,
+  httpPort: 80,
+
+  httpsPort: 443,
+  httpsKey: './https/key.pem',
+  httpsCert: './https/cert.pem',
+
   envName: 'production',
 };
 

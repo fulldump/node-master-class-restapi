@@ -4,12 +4,14 @@
 
 // Dependencies
 const http = require('http');
+const https = require('https');
 const url = require('url');
 const StringDecoder = require('string_decoder').StringDecoder;
 const config = require('./config');
+const fs = require('fs');
 
-// The server should responde to all requests with a string
-const server = http.createServer(function(req, res) {
+// Main handler
+const mainHandler = function(req, res) {
 
   // Get request method
   const method = req.method.toUpperCase();
@@ -81,12 +83,26 @@ const server = http.createServer(function(req, res) {
 
   })
 
-});
+};
+
+// Instantiate the HTTP server
+const httpServer = http.createServer(mainHandler);
 
 // Start the server, and have it listen on port 3000
-server.listen(config.port, function() {
-  console.log(`The server is listening on port ${config.port} now (${config.envName} environment)`);
+httpServer.listen(config.httpPort, function() {
+  console.log(`The server is listening HTTP on port ${config.httpPort} now (${config.envName} environment)`);
 });
+
+// Instantiate the HTTPS server
+const httpsServerOptions = {
+  key: fs.readFileSync(config.httpsKey),
+  cert: fs.readFileSync(config.httpsCert),
+};
+const httpsServer = https.createServer(httpsServerOptions, mainHandler);
+httpsServer.listen(config.httpsPort, function() {
+  console.log(`The server is listening HTTPS on port ${config.httpsPort} now (${config.envName} environment)`);
+})
+
 
 var handlers = {};
 
