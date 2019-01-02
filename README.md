@@ -1,4 +1,6 @@
-# RESTful API
+# Building a RESTful API
+
+This branch is following chapter _Building a RESTful API_ from the course.
 
 ## Creating TLS certificate
 
