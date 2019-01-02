@@ -13,10 +13,13 @@ const server = http.createServer(function(req, res) {
   const method = req.method.toUpperCase();
 
   // Get the url and parse it
-  const parsedUrl = url.parse(req.url, true);
+  const parsedUrl = url.parse(req.url, true); // true is parsing query string
 
   // Get the path from the url
   const path = parsedUrl.pathname;
+
+  // Get the query string as an object
+  const query = parsedUrl.query;
 
   // Send the response
   res.end('Hello World\n');
