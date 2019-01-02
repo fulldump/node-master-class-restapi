@@ -118,7 +118,12 @@ handlers.empty = function(data, callback) {
   callback();
 };
 
+handlers.ping = function(data, callback) {
+  callback(200);
+};
+
 var router = {
   '/sample': handlers.sample,
   '/empty': handlers.empty,
+  '/ping': handlers.ping,
 }
