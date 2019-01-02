@@ -55,14 +55,19 @@ const server = http.createServer(function(req, res) {
     };
 
     handler(data, function(statusCode, payload) {
-      // use the status code or default to 200
-      statusCode = statusCode || 200;
 
       // use payload or default to empty object
-      payload = payload || {};
+      var payloadString = '';
+      if (payload) {
+        res.setHeader('Content-Type', 'application/json');
+        // Convert the payload to string
+        payloadString = JSON.stringify(payload,null,4)+'\n';
+      } else {
+        statusCode = statusCode || 204;
+      }
 
-      // Convert the payload to string
-      var payloadString = JSON.stringify(payload,null,4)+'\n';
+      // use the status code or default to 200
+      statusCode = statusCode || 200;
 
       // Return response
       res.writeHead(statusCode);
@@ -85,13 +90,18 @@ server.listen(3000, function() {
 var handlers = {};
 
 handlers.sample = function(data, callback) {
-  callback(406, {'name': 'sample handler'})
+  callback(406, {'name': 'sample handler'});
 };
 
 handlers.notFound = function(data, callback) {
-  callback(404)
+  callback(404);
+};
+
+handlers.empty = function(data, callback) {
+  callback();
 };
 
 var router = {
   '/sample': handlers.sample,
+  '/empty': handlers.empty,
 }
