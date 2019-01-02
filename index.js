@@ -38,11 +38,41 @@ const server = http.createServer(function(req, res) {
   req.on('end', () => {
     buffer += decoder.end();
 
-    // Send the response
-    res.end('Hello World\n');
+    // Choose the handler this request should go to. If one is not found, use
+    // the notFound handler
+    var handler = router[path];
+    if (!handler) {
+      handler = handlers.notFound;
+    }
 
-    // Access log
-    console.log(`${now.toUTCString()}\t${method}\t${path}`);
+    // Construct data to send to the handler
+    const data = {
+      path,
+      query,
+      method,
+      headers,
+      payload: buffer,
+    };
+
+    handler(data, function(statusCode, payload) {
+      // use the status code or default to 200
+      statusCode = statusCode || 200;
+
+      // use payload or default to empty object
+      payload = payload || {};
+
+      // Convert the payload to string
+      var payloadString = JSON.stringify(payload,null,4)+'\n';
+
+      // Return response
+      res.writeHead(statusCode);
+      res.end(payloadString);
+
+      // Access log
+      console.log(`${now.toUTCString()}\t${method}\t${path} (${payloadString.length}B)`);
+
+    });
+
   })
 
 });
@@ -51,3 +81,17 @@ const server = http.createServer(function(req, res) {
 server.listen(3000, function() {
   console.log("The server is listening on port 3000 now");
 });
+
+var handlers = {};
+
+handlers.sample = function(data, callback) {
+  callback(406, {'name': 'sample handler'})
+};
+
+handlers.notFound = function(data, callback) {
+  callback(404)
+};
+
+var router = {
+  '/sample': handlers.sample,
+}
