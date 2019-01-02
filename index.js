@@ -21,6 +21,9 @@ const server = http.createServer(function(req, res) {
   // Get the query string as an object
   const query = parsedUrl.query;
 
+  // Get headers as an object
+  const headers = req.headers;
+
   // Send the response
   res.end('Hello World\n');
 
