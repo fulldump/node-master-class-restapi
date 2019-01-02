@@ -10,7 +10,6 @@ As a rule of the thumb, there will be *one branch per chapter* (named after the 
 
 Also *one branch per homework assignment* that could be or could not be created from respective chapter.
 
-* [master]()
-* [building-a-restful-api](https://github.com/fulldump/pirple-node-master-class/tree/restful-api)
-  * [homework-assignment-2](https://github.com/fulldump/pirple-node-master-class/tree/homework-assignment-2)
+* [master](https://github.com/fulldump/pirple-node-master-class)
+* [building-a-restful-api](https://github.com/fulldump/pirple-node-master-class/tree/building-a-restful-api)
   * [homework-assignment-1](https://github.com/fulldump/pirple-node-master-class/tree/homework-assignment-1)
