@@ -85,15 +85,13 @@ const mainHandler = function(req, res) {
 
 };
 
-// Instantiate the HTTP server
+// Instantiate & start the HTTP server
 const httpServer = http.createServer(mainHandler);
-
-// Start the server, and have it listen on port 3000
 httpServer.listen(config.httpPort, function() {
   console.log(`The server is listening HTTP on port ${config.httpPort} now (${config.envName} environment)`);
 });
 
-// Instantiate the HTTPS server
+// Instantiate & start the HTTPS server
 const httpsServerOptions = {
   key: fs.readFileSync(config.httpsKey),
   cert: fs.readFileSync(config.httpsCert),
@@ -103,7 +101,7 @@ httpsServer.listen(config.httpsPort, function() {
   console.log(`The server is listening HTTPS on port ${config.httpsPort} now (${config.envName} environment)`);
 })
 
-
+// Handlers zone
 var handlers = {};
 
 handlers.sample = function(data, callback) {
