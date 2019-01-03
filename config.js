@@ -14,6 +14,8 @@ environments.staging = {
   httpsCert: './https/cert.pem',
 
   envName: 'staging',
+
+  hashingSecret: '4e813ba4-0ef2-11e9-b82a-3f52039d5202',
 };
 
 // Production
@@ -25,6 +27,8 @@ environments.production = {
   httpsCert: './https/cert.pem',
 
   envName: 'production',
+
+  hashingSecret: '529ce9ea-0ef2-11e9-8020-9b2eaffb007a',
 };
 
 // Determine which environment was passed as a command-line argument

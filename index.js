@@ -9,6 +9,8 @@ const url = require('url');
 const StringDecoder = require('string_decoder').StringDecoder;
 const config = require('./config');
 const fs = require('fs');
+const handlers = require('./lib/handlers');
+const helpers = require('./lib/helpers');
 
 // Main handler
 const mainHandler = function(req, res) {
@@ -54,7 +56,7 @@ const mainHandler = function(req, res) {
       query,
       method,
       headers,
-      payload: buffer,
+      payload: helpers.parseJsonObject(buffer),
     };
 
     handler(data, function(statusCode, payload) {
@@ -101,27 +103,9 @@ httpsServer.listen(config.httpsPort, function() {
   console.log(`The server is listening HTTPS on port ${config.httpsPort} now (${config.envName} environment)`);
 })
 
-// Handlers zone
-var handlers = {};
-
-handlers.sample = function(data, callback) {
-  callback(406, {'name': 'sample handler'});
-};
-
-handlers.notFound = function(data, callback) {
-  callback(404);
-};
-
-handlers.empty = function(data, callback) {
-  callback();
-};
-
-handlers.ping = function(data, callback) {
-  callback(200);
-};
-
 var router = {
   '/sample': handlers.sample,
   '/empty': handlers.empty,
   '/ping': handlers.ping,
+  '/users': handlers.users,
 }
