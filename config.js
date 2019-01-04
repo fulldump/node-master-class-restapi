@@ -16,6 +16,8 @@ environments.staging = {
   envName: 'staging',
 
   hashingSecret: '4e813ba4-0ef2-11e9-b82a-3f52039d5202',
+
+  maxChecks: 5,
 };
 
 // Production
@@ -29,6 +31,8 @@ environments.production = {
   envName: 'production',
 
   hashingSecret: '529ce9ea-0ef2-11e9-8020-9b2eaffb007a',
+
+  maxChecks: 5,
 };
 
 // Determine which environment was passed as a command-line argument

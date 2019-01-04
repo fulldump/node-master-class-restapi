@@ -79,7 +79,7 @@ const mainHandler = function(req, res) {
       res.end(payloadString);
 
       // Access log
-      console.log(`${now.toUTCString()}\t${method}\t${path} (${payloadString.length}B)`);
+      console.log(`${now.toUTCString()}\t${method}\t${path}\t${statusCode}\t(${payloadString.length}B)`);
 
     });
 
@@ -109,4 +109,5 @@ var router = {
   '/ping': handlers.ping,
   '/users': handlers.users,
   '/tokens': handlers.tokens,
+  '/checks': handlers.checks,
 }
