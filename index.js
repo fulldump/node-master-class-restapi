@@ -5,6 +5,7 @@
 // Dependencies
 const server = require('./lib/server');
 const handlers = require('./lib/handlers');
+
 // Declare the app
 const app = {};
 
@@ -20,6 +21,10 @@ app.init = function() {
 
   s.router.path('/ping')
     .method('*', handlers.ping);
+
+  s.router.path('/users')
+    .method('GET', handlers.listUsers)
+    .method('POST', handlers.createUser);
 
   // Start listening
   s.start();
