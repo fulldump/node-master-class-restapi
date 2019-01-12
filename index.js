@@ -26,6 +26,11 @@ app.init = function() {
     .method('GET', handlers.listUsers)
     .method('POST', handlers.createUser);
 
+  s.router.path('/users/{userEmail}')
+    .method('GET', handlers.retrieveUser)
+    .method('PATCH', handlers.updateUser)
+    .method('DELETE', handlers.deleteUser);
+
   // Start listening
   s.start();
 
