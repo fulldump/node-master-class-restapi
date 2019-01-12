@@ -23,3 +23,19 @@ Changing from environment (`staging` and `production` are available) just use th
 ```bash
 E=production node index.js
 ```
+
+# How to run tests
+
+Testing library is a small test runner tool just for this course. If a source
+file has tests (for example `lib/router.js`) you can run its tests with the
+following command:
+
+```bash
+node lib/rouer.tests.js
+```
+
+If you want to run all tests:
+
+```bash
+node tests.js
+```
