@@ -1,2 +1,6 @@
 # IDEs
 /.tern-project
+
+# Persitence directories
+/.data
+/.logs
