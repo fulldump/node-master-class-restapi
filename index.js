@@ -5,6 +5,7 @@
 // Dependencies
 const server = require('./lib/server');
 const handlers = require('./lib/handlers');
+const helpers = require('./lib/helpers');
 
 // Declare the app
 const app = {};
@@ -15,13 +16,7 @@ app.init = function() {
   // Instantiate a new server
   var s = new server.Server();
 
-  // Set some handlers
-  s.router.path('/sample')
-    .method('GET', handlers.sample);
-
-  s.router.path('/ping')
-    .method('*', handlers.ping);
-
+  // Setup app handlers
   s.router.path('/users')
     .method('GET', handlers.listUsers)
     .method('POST', handlers.createUser);
@@ -30,6 +25,13 @@ app.init = function() {
     .method('GET', handlers.retrieveUser)
     .method('PATCH', handlers.updateUser)
     .method('DELETE', handlers.deleteUser);
+
+  // Generate documentation
+  if (process.env.APIDOC) {
+    const doc = helpers.genApiDoc(s.router);
+    console.log(doc);
+    return;
+  }
 
   // Start listening
   s.start();
