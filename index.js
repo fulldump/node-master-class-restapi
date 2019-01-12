@@ -21,7 +21,7 @@ app.init = function() {
   s.router.path('/ping')
     .method('*', handlers.ping);
 
-  // Start listenint
+  // Start listening
   s.start();
 
 };
