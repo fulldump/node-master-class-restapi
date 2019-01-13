@@ -1,11 +1,14 @@
 
 # API Doc Reference
 
-TODO: build index :D
+* [ListUsers](./APIDOC.md)
+* [CreateUser](./APIDOC.md)
+* [RetrieveUser](./APIDOC.md)
+* [UpdateUser](./APIDOC.md)
+* [DeleteUser](./APIDOC.md)
 
-## /users
 
-### listUsers (GET /users)
+## ListUsers - GET /users
 
 
 List all users. You should be administrator.
@@ -27,7 +30,7 @@ Transfer-Encoding: chunked
 ```
 
 
-### createUser (POST /users)
+## CreateUser - POST /users
 
 
 Create a new user.
@@ -35,9 +38,7 @@ Required fields: email, name, address
 Optional fields: age, phone
 
 
-## /users/{userEmail}
-
-### retrieveUser (GET /users/{userEmail})
+## RetrieveUser - GET /users/{userEmail}
 
 
 Retrieve a user by email.
@@ -60,7 +61,7 @@ Transfer-Encoding: chunked
 ```
 
 
-### updateUser (PATCH /users/{userEmail})
+## UpdateUser - PATCH /users/{userEmail}
 
 
 Update a user by email with path `/users/{userEmail}`.
@@ -88,7 +89,7 @@ Transfer-Encoding: chunked
 ```
 
 
-### deleteUser (DELETE /users/{userEmail})
+## DeleteUser - DELETE /users/{userEmail}
 
 
 Delete a user by email.
@@ -114,4 +115,8 @@ Transfer-Encoding: chunked
 ```
 
 
+
+
+---
+Generated on Sun Jan 13 2019 01:06:17 GMT+0100 (CET)
 
