@@ -27,7 +27,7 @@ app.init = function() {
   if (process.env.APIDOC) {
     const doc = helpers.genApiDoc(router);
     console.log(doc);
-    return;
+    process.exit(0);
   }
 };
 
