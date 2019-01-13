@@ -92,7 +92,7 @@ suite.addAsync(function CrudUsers(t) {
       createTimestamp: user.createTimestamp,
     };
     t.deepEqual(user, expectedUser);
-    t.deepEqual(res.statusCode, 200);
+    t.deepEqual(res.statusCode, 201);
 
     // 2: Retrieve user
     makeRequest('GET', 'http://localhost:3000/users/'+userEmail)
@@ -141,14 +141,32 @@ suite.addAsync(function TokensCrud(t) {
   // 1: Create user
   makeRequest('POST', 'http://localhost:3000/users', {}, {email, password, name, address}).then(function(res) {
 
-    // 2: Login
+    t.deepEqual(res.statusCode, 201);
+
+    // 2: Login (create token)
     makeRequest('POST', 'http://localhost:3000/tokens', {}, {email, password}).then(function(res) {
-      t.deepEqual(res.payload, {
+      const token = res.payload;
+      t.deepEqual(token, {
         email,
-        id: res.payload.id,
-        expires: res.payload.expires,
+        id: token.id,
+        expires: token.expires,
       });
-      t.done();
+      t.deepEqual(res.statusCode, 201);
+
+      // 3: Retrieve token
+      makeRequest('GET', `http://localhost:3000/tokens/${token.id}`).then(function(res) {
+        t.deepEqual(res.payload, token);
+        t.deepEqual(res.statusCode, 200);
+
+        // 4: Delete token
+        makeRequest('DELETE', `http://localhost:3000/tokens/${token.id}`).then(function(res) {
+          t.deepEqual(res.payload, token);
+          t.deepEqual(res.statusCode, 200);
+          t.done();
+        });
+
+      });
+
     });
 
   });

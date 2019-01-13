@@ -27,6 +27,10 @@ app.init = function() {
   router.path('/tokens')
     .method('POST', handlers.createToken);
 
+  router.path('/tokens/{tokenId}')
+    .method('GET', handlers.retrieveToken)
+    .method('DELETE', handlers.deleteToken);
+
   // Generate documentation
   if (process.env.APIDOC) {
     const doc = helpers.genApiDoc(router);
