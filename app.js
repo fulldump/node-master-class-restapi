@@ -31,6 +31,9 @@ app.init = function() {
     .method('GET', handlers.retrieveToken)
     .method('DELETE', handlers.deleteToken);
 
+  router.path('/menu')
+    .method('GET', authorized(handlers.listMenu));
+
   // Generate documentation
   if (process.env.APIDOC) {
     const doc = helpers.genApiDoc(router);

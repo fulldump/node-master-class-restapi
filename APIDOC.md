@@ -1,4 +1,3 @@
-Handler name: listUsers
 
 # API Doc Reference
 
@@ -10,13 +9,14 @@ Handler name: listUsers
 * [CreateToken](#createtoken---post-tokens)
 * [RetrieveToken](#retrievetoken---get-tokenstokenid)
 * [DeleteToken](#deletetoken---delete-tokenstokenid)
+* [ListMenu (authorized)](#listmenu-authorized---get-menu)
 
 
 ## ListUsers (authorized) - GET /users
 
-
 Note: This operation requires user authentication via header `Token`.
-  
+
+
 List all users. You should be administrator.
 
 Example:
@@ -239,8 +239,46 @@ Transfer-Encoding: chunked
 ```
 
 
+## ListMenu (authorized) - GET /menu
+
+Note: This operation requires user authentication via header `Token`.
+
+
+List all menu items. User should be logged in.
+
+Required fields: none
+
+Optional fields: none
+
+Example:
+
+```
+curl -i http://localhost:3000/menu -H 'Token: qkwjc1zwujgy0hrvvata'
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Sun, 13 Jan 2019 22:19:44 GMT
+Connection: keep-alive
+Transfer-Encoding: chunked
+
+[
+    {
+        "name": "Pepperoni",
+        "description": "Classical Italian pepperonini pizzinni.",
+        "picture": "/img/pepperoni.png",
+        "price": 22.5
+    },
+    {
+        "name": "Cheese",
+        "description": "Five layers of Italian creamy cheese.",
+        "picture": "/img/cheese.png",
+        "price": 21.5
+    }
+]
+```
+
+
 
 
 ---
-Generated on Sun Jan 13 2019 20:38:14 GMT+0100 (CET)
+Generated on Sun Jan 13 2019 23:20:46 GMT+0100 (CET)
 
