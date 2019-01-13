@@ -75,6 +75,7 @@ suite.addAsync(function CrudUsers(t) {
 
   const userEmail = helpers.createRandomString(10) + '@email.com';
 
+  // 1: Create user
   makeRequest('POST', 'http://localhost:3000/users', {}, {
     name: 'Fulanez',
     email: userEmail,
@@ -91,20 +92,40 @@ suite.addAsync(function CrudUsers(t) {
     t.deepEqual(user, expectedUser);
     t.deepEqual(res.statusCode, 200);
 
+    // 2: Retrieve user
     makeRequest('GET', 'http://localhost:3000/users/'+userEmail)
     .then(function(res) {
       var user = res.payload;
       t.deepEqual(user, expectedUser);
       t.deepEqual(res.statusCode, 200);
-      t.done();
-    })
-    .catch(function() {
-      t.done();
-    });
 
-  }, function(err) {
-    t.fail(err);
-    t.done();
+      // 3: Update user
+      makeRequest('PATCH', 'http://localhost:3000/users/'+userEmail, {}, {
+        name: 'Mengano',
+      })
+      .then(function(res) {
+        var user = res.payload;
+        expectedUser.name = 'Mengano';
+        expectedUser.updateTimestamp = user.updateTimestamp;
+        t.deepEqual(user, expectedUser);
+        t.deepEqual(res.statusCode, 200);
+
+        // 4: Delete user
+        makeRequest('DELETE', 'http://localhost:3000/users/'+userEmail)
+        .then(function(res) {
+          var user = res.payload;
+          t.deepEqual(user, expectedUser);
+          t.deepEqual(res.statusCode, 200);
+
+          // 5: Retrieve user again (should be not found)
+          makeRequest('GET', 'http://localhost:3000/users/'+userEmail)
+          .then(function(res) {
+            t.deepEqual(res.statusCode, 404);
+            t.done();
+          })
+        });
+      });
+    });
   });
 });
 
