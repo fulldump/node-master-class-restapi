@@ -34,14 +34,42 @@ Transfer-Encoding: chunked
 
 
 Create a new user.
-Required fields: email, name, address
-Optional fields: age, phone
+
+Required fields:
+* `email`
+* `name`
+* `address`
+
+Optional fields:
+* `age`
+* `phone`
+
+Example:
+
+```
+curl -i http://localhost:3000/users -d '{"email":"fulanito@email.com", "name":"Fulanez", "address":"Elm street 33"}'
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Sun, 13 Jan 2019 00:25:56 GMT
+Connection: keep-alive
+Transfer-Encoding: chunked
+
+{
+    "email": "fulanito@email.com",
+    "name": "Fulanez",
+    "address": "Elm street 33",
+    "createTimestamp": 1547339156046
+}
+```
 
 
 ## RetrieveUser - GET /users/{userEmail}
 
 
 Retrieve a user by email.
+
+Required fields:
+* `email`
 
 Example:
 ```
@@ -64,11 +92,16 @@ Transfer-Encoding: chunked
 ## UpdateUser - PATCH /users/{userEmail}
 
 
-Update a user by email with path `/users/{userEmail}`.
+Update a user by email.
 
-Allowed fields to update:
-* `name`
-* `address`
+Required fields:
+* `email` (string)
+
+Optional fields:
+* `name` (string)
+* `address` (string)
+* `age` (number)
+* `phone` (string)
 
 Example:
 ```
@@ -118,5 +151,5 @@ Transfer-Encoding: chunked
 
 
 ---
-Generated on Sun Jan 13 2019 01:21:42 GMT+0100 (CET)
+Generated on Sun Jan 13 2019 04:20:00 GMT+0100 (CET)
 
