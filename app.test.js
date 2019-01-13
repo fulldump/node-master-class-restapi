@@ -74,11 +74,13 @@ function makeRequest(method, uri, headers, body) {
 suite.addAsync(function CrudUsers(t) {
 
   const userEmail = helpers.createRandomString(10) + '@email.com';
+  const userPassword = '123456';
 
   // 1: Create user
   makeRequest('POST', 'http://localhost:3000/users', {}, {
     name: 'Fulanez',
     email: userEmail,
+    password: userPassword,
     address: 'Elm street 88',
   })
   .then(function(res) {
@@ -127,6 +129,30 @@ suite.addAsync(function CrudUsers(t) {
       });
     });
   });
+});
+
+suite.addAsync(function TokensCrud(t) {
+
+  const name = helpers.createRandomString(10);
+  const email = name + '@email.com';
+  const password = '123456';
+  const address = 'Elm Street 7';
+
+  // 1: Create user
+  makeRequest('POST', 'http://localhost:3000/users', {}, {email, password, name, address}).then(function(res) {
+
+    // 2: Login
+    makeRequest('POST', 'http://localhost:3000/tokens', {}, {email, password}).then(function(res) {
+      t.deepEqual(res.payload, {
+        email,
+        id: res.payload.id,
+        expires: res.payload.expires,
+      });
+      t.done();
+    });
+
+  });
+
 });
 
 // Initialize and start server

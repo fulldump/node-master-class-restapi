@@ -14,6 +14,7 @@ app.init = function() {
 
   // Setup app handlers
   var router = app.server.router;
+
   router.path('/users')
     .method('GET', handlers.listUsers)
     .method('POST', handlers.createUser);
@@ -22,6 +23,9 @@ app.init = function() {
     .method('GET', handlers.retrieveUser)
     .method('PATCH', handlers.updateUser)
     .method('DELETE', handlers.deleteUser);
+
+  router.path('/tokens')
+    .method('POST', handlers.createToken);
 
   // Generate documentation
   if (process.env.APIDOC) {
