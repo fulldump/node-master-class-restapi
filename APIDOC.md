@@ -1,7 +1,8 @@
+Handler name: listUsers
 
 # API Doc Reference
 
-* [ListUsers](#listusers---get-users)
+* [ListUsers (authorized)](#listusers-authorized---get-users)
 * [CreateUser](#createuser---post-users)
 * [RetrieveUser](#retrieveuser---get-usersuseremail)
 * [UpdateUser](#updateuser---patch-usersuseremail)
@@ -11,9 +12,11 @@
 * [DeleteToken](#deletetoken---delete-tokenstokenid)
 
 
-## ListUsers - GET /users
+## ListUsers (authorized) - GET /users
 
 
+Note: This operation requires user authentication via header `Token`.
+  
 List all users. You should be administrator.
 
 Example:
@@ -211,7 +214,7 @@ Transfer-Encoding: chunked
 ## DeleteToken - DELETE /tokens/{tokenId}
 
 
-Delete an existing token. Users can only delete owned tokens.
+Logout by deleting an existing token. Users can only delete owned tokens.
 
 Required fields:
 * `tokenId` (url parameter)
@@ -239,5 +242,5 @@ Transfer-Encoding: chunked
 
 
 ---
-Generated on Sun Jan 13 2019 18:22:10 GMT+0100 (CET)
+Generated on Sun Jan 13 2019 20:38:14 GMT+0100 (CET)
 

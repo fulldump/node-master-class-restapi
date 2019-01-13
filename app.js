@@ -2,7 +2,7 @@
 const server = require('./lib/server');
 const handlers = require('./lib/handlers');
 const helpers = require('./lib/helpers');
-
+const authorized = handlers.authorized; // Shortcut
 // Declare the app
 const app = {};
 
@@ -16,7 +16,7 @@ app.init = function() {
   var router = app.server.router;
 
   router.path('/users')
-    .method('GET', handlers.listUsers)
+    .method('GET', authorized(handlers.listUsers))
     .method('POST', handlers.createUser);
 
   router.path('/users/{userEmail}')

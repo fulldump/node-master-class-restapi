@@ -9,6 +9,7 @@ const https = require('https');
 const http = require('http');
 const url = require('url');
 const helpers = require('./lib/helpers');
+const datalib = require('./lib/data');
 
 // Initialize suite
 var suite = new testing.Suite();
@@ -164,13 +165,57 @@ suite.addAsync(function TokensCrud(t) {
           t.deepEqual(res.statusCode, 200);
           t.done();
         });
-
       });
-
     });
-
   });
+});
 
+suite.addAsync(function ListUsersByAdminsOnly(t) {
+
+  // List users can only be done by admin users, in other words:
+  // - A valid token should be provided
+  // - User for that token should be admin
+
+  makeRequest('GET', `http://localhost:3000/users`).then(function(res) {
+    // CHECK: no user logged in should fail:
+    t.deepEqual(res.statusCode, 403);
+    t.deepEqual(res.payload, {error: "Header 'Token' is mandatory"});
+
+    // Create regular user
+    const name = helpers.createRandomString(10);
+    const email = name + '@email.com';
+    const password = '123456';
+    const address = 'Elm Street 7';
+    makeRequest('POST', `http://localhost:3000/users`, {}, {name, email, password, address}).then(function(res) {
+      t.deepEqual(res.statusCode, 201);
+      var user = res.payload;
+
+      // Create a token for that user
+      makeRequest('POST', `http://localhost:3000/tokens`, {}, {email, password}).then(function(res) {
+        t.deepEqual(res.statusCode, 201);
+        const token = res.payload.id;
+
+        // CHECK: non admin users can not list users
+        makeRequest('GET', `http://localhost:3000/users`, {token}).then(function(res) {
+          t.deepEqual(res.statusCode, 403);
+          t.deepEqual(res.payload, {error: 'Only admin users can list users'});
+
+          // Modify user to make it admin (ugly way: accessing persistence layer)
+          user.scopes = user.scopes || {};
+          user.scopes.admin = true;
+          datalib.update('users', email, user, function(err) {
+            // Assume err is nil for this test
+
+            // CHECK: admin user can list users
+            makeRequest('GET', `http://localhost:3000/users`, {token}).then(function(res) {
+              t.deepEqual(res.statusCode, 200);
+              t.done();
+            });
+          });
+        });
+      });
+    });
+  });
 });
 
 // Initialize and start server
