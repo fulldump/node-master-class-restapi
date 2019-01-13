@@ -6,6 +6,9 @@
 * [RetrieveUser](#retrieveuser---get-usersuseremail)
 * [UpdateUser](#updateuser---patch-usersuseremail)
 * [DeleteUser](#deleteuser---delete-usersuseremail)
+* [CreateToken](#createtoken---post-tokens)
+* [RetrieveToken](#retrievetoken---get-tokenstokenid)
+* [DeleteToken](#deletetoken---delete-tokenstokenid)
 
 
 ## ListUsers - GET /users
@@ -148,8 +151,93 @@ Transfer-Encoding: chunked
 ```
 
 
+## CreateToken - POST /tokens
+
+
+Login a user into the system creating a token valid for a short period of life
+(1h by default).
+
+Required fields:
+* `tokenId` (url parameter)
+
+Optional fields: none
+
+Example:
+
+```
+curl -i http://localhost:3000/tokens -d '{"email":"59m58tgj06@email.com", "password":"123456"}'
+HTTP/1.1 201 Created
+Content-Type: application/json
+Date: Sun, 13 Jan 2019 13:18:16 GMT
+Connection: keep-alive
+Transfer-Encoding: chunked
+
+{
+    "id": "rtspz7b91zzt2ff8uuw0",
+    "email": "59m58tgj06@email.com",
+    "expires": 1547389096153
+}
+```
+
+
+## RetrieveToken - GET /tokens/{tokenId}
+
+
+Get an existing token. Users can only see owned tokens.
+
+Required fields:
+* `tokenId` (url parameter)
+
+Optional fields: none
+
+Example:
+
+```
+curl -i http://localhost:3000/tokens/rtspz7b91zzt2ff8uuw0
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Sun, 13 Jan 2019 13:21:42 GMT
+Connection: keep-alive
+Transfer-Encoding: chunked
+
+{
+    "id": "rtspz7b91zzt2ff8uuw0",
+    "email": "59m58tgj06@email.com",
+    "expires": 1547389096153
+}
+```
+
+
+## DeleteToken - DELETE /tokens/{tokenId}
+
+
+Delete an existing token. Users can only delete owned tokens.
+
+Required fields:
+* `tokenId` (url parameter)
+
+Optional fields: none
+
+Example:
+
+```
+curl -i -X DELETE http://localhost:3000/tokens/rtspz7b91zzt2ff8uuw0
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Sun, 13 Jan 2019 17:18:00 GMT
+Connection: keep-alive
+Transfer-Encoding: chunked
+
+{
+    "id": "rtspz7b91zzt2ff8uuw0",
+    "email": "59m58tgj06@email.com",
+    "expires": 1547389096153
+}
+```
+
+
 
 
 ---
-Generated on Sun Jan 13 2019 04:20:00 GMT+0100 (CET)
+Generated on Sun Jan 13 2019 18:22:10 GMT+0100 (CET)
 
