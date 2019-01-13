@@ -2,4 +2,6 @@
  * Import all test files
  */
 
-require('./lib/router.test.js');
+require('./lib/router.test');
+require('./lib/testing.test');
+require('./app.test');
