@@ -1,11 +1,11 @@
 
 # API Doc Reference
 
-* [ListUsers](./APIDOC.md)
-* [CreateUser](./APIDOC.md)
-* [RetrieveUser](./APIDOC.md)
-* [UpdateUser](./APIDOC.md)
-* [DeleteUser](./APIDOC.md)
+* [ListUsers](listusers---get-users)
+* [CreateUser](createuser---post-users)
+* [RetrieveUser](retrieveuser---get-usersuseremail)
+* [UpdateUser](updateuser---patch-usersuseremail)
+* [DeleteUser](deleteuser---delete-usersuseremail)
 
 
 ## ListUsers - GET /users
@@ -118,5 +118,5 @@ Transfer-Encoding: chunked
 
 
 ---
-Generated on Sun Jan 13 2019 01:06:17 GMT+0100 (CET)
+Generated on Sun Jan 13 2019 01:18:45 GMT+0100 (CET)
 
