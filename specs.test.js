@@ -146,6 +146,77 @@ suite.addAsync(function Spec2(t) {
   });
 });
 
+// SPEC3
+// When a user is logged in, they should be able to GET all the possible menu
+// items (these items can be hardcoded into the system).
+suite.addAsync(function Spec3(t) {
+
+  // Base url
+  const host = 'localhost:3000';
+
+  // Credentials
+  const email = `mengano${helpers.createRandomString(20)}@email.com`;
+  const password = helpers.createRandomString(16);
+
+  // Create user to work with
+  makeRequest('POST', `http://${host}/users`, {}, {
+    email,
+    password,
+    name: 'Zutanez',
+    address: 'Elm Street',
+  })
+  .then(function(res) {
+
+    // Check user has been created ok
+    t.deepEqual(res.statusCode, 201);
+
+    // "When a user is logged in"
+    makeRequest('POST', `http://${host}/tokens`, {}, {
+      email, password,
+    }).
+    then(function(res) {
+
+      // Get token id
+      const token = res.payload.id;
+
+      // "they should be able to GET all the possible menu
+      // items (these items can be hardcoded into the system)"
+      makeRequest('GET', `http://${host}/menu`, {token})
+      .then(function(res) {
+
+        // Check user is granted
+        t.deepEqual(res.statusCode, 200);
+
+        // Check menu items
+        t.deepEqual(res.payload, [
+          {
+            name: 'Pepperoni',
+            description: 'Classical Italian pepperonini pizzinni.',
+            picture: '/img/pepperoni.png',
+            price: 22.5,
+          },
+          {
+            name: 'Cheese',
+            description: 'Five layers of Italian creamy cheese.',
+            picture: '/img/cheese.png',
+            price: 21.5,
+          },
+          {
+            name: 'CowCow',
+            description: 'Real veal meat.',
+            picture: '/img/cowcow.png',
+            price: 23.9,
+          },
+        ]);
+
+        // Notify async test has finished
+        t.done();
+      });
+    });
+  });
+});
+
+
 // Initialize and start server
 app.init();
 app.start();
