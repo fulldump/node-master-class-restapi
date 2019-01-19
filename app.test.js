@@ -5,9 +5,6 @@
 // Dependencies
 const app = require('./app');
 const testing = require('./lib/testing');
-const https = require('https');
-const http = require('http');
-const url = require('url');
 const helpers = require('./lib/helpers');
 const makeRequest = helpers.makeRequest;
 const datalib = require('./lib/data');

@@ -1,8 +1,19 @@
+/**
+ * Application main file
+ *
+ * How to use:
+ *   const app = require('./app');
+ *   app.init();
+ *   app.start();
+ */
+
 // Dependencies
 const server = require('./lib/server');
 const handlers = require('./lib/handlers');
 const helpers = require('./lib/helpers');
 const authorized = handlers.authorized; // Shortcut
+const constants = require('./constants');
+
 // Declare the app
 const app = {};
 
@@ -40,6 +51,9 @@ app.init = function() {
     console.log(doc);
     process.exit(0);
   }
+
+  // Print Banner
+  console.log(constants.banner);
 };
 
 app.start = function() {
