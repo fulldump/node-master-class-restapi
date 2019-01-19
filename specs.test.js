@@ -259,7 +259,7 @@ suite.addAsync(function Spec4(t) {
 
         // Check request is accepted
         t.deepEqual(res.statusCode, 200);
-        
+
         // Notify async test has finished
         t.done();
       });
@@ -267,6 +267,36 @@ suite.addAsync(function Spec4(t) {
   });
 });
 
+// SPEC5
+// A logged-in user should be able to create an order. You should integrate
+// with the Sandbox of Stripe.com to accept their payment. Note: Use the
+// stripe sandbox for your testing. Follow this link and click on the "tokens"
+// tab to see the fake tokens you can use server-side to confirm the
+// integration is working: https://stripe.com/docs/testing#cards
+suite.addAsync(function Spec5(t) {
+
+  t.fail('Spec5 is not implemented');
+
+  // Notify async test has finished
+  t.done();
+
+});
+
+// SPEC6
+// When an order is placed, you should email the user a receipt. You should
+// integrate with the sandbox of Mailgun.com for this. Note: Every Mailgun
+// account comes with a sandbox email account domain
+// (whatever@sandbox123.mailgun.org) that you can send from by default. So,
+// there's no need to setup any DNS for your domain for this task
+// https://documentation.mailgun.com/en/latest/faqs.html#how-do-i-pick-a-domain-name-for-my-mailgun-account
+suite.addAsync(function Spec6(t) {
+
+  t.fail('Spec6 is not implemented');
+
+  // Notify async test has finished
+  t.done();
+
+});
 
 
 // Initialize and start server
