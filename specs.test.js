@@ -30,7 +30,8 @@ suite.addAsync(function Spec1(t) {
     email,
     address,
     password: '1234',
-  }).then(function(res) {
+  })
+  .then(function(res) {
 
     // Check user has been created
     t.deepEqual(res.statusCode, 201);
@@ -66,6 +67,78 @@ suite.addAsync(function Spec1(t) {
           .then(function(res) {
             t.deepEqual(res.statusCode, 404);
             t.done();
+          });
+        });
+      });
+    });
+  });
+});
+
+// SPEC 2
+// Users can log in and log out by creating or destroying a token.
+suite.addAsync(function Spec2(t) {
+
+  // Base url
+  const host = 'localhost:3000';
+
+  // Credentials
+  const email = `mengano${helpers.createRandomString(20)}@email.com`;
+  const password = helpers.createRandomString(16);
+
+  // Create user to work with
+  makeRequest('POST', `http://${host}/users`, {}, {
+    email,
+    password,
+    name: 'Zutanez',
+    address: 'Elm Street',
+  })
+  .then(function(res) {
+
+    // Check user has been created ok
+    t.deepEqual(res.statusCode, 201);
+
+    // Try to access a restricted resource
+    makeRequest('GET', `http://${host}/menu`)
+    .then(function(res) {
+
+      // Check access is forbidden
+      t.deepEqual(res.statusCode, 403);
+
+      // "Users can log in [...] by creating [...] a token."
+      makeRequest('POST', `http://${host}/tokens`, {}, {
+        email, password,
+      }).
+      then(function(res) {
+
+        // Check token has been created properly
+        t.deepEqual(res.statusCode, 201);
+
+        // Get token id
+        const token = res.payload.id;
+        // Try to access a restricted resource (this time it should work)
+        makeRequest('GET', `http://${host}/menu`, {token})
+        .then(function(res) {
+
+          // Check status code is not 403
+          t.deepEqual(res.statusCode, 200);
+
+          // "Users can [...] and log out by [...] destroying a token."
+          makeRequest('DELETE', `http://${host}/tokens/${token}`)
+          .then(function(res) {
+
+            // Check request was ok
+            t.deepEqual(res.statusCode, 200);
+
+            // Try to access with a deleted token (should be forbidden)
+            makeRequest('GET', `http://${host}/menu`, {token})
+            .then(function(res) {
+
+              // Check access is forbidden with a deleted token
+              t.deepEqual(res.statusCode, 403);
+
+              // Notify async test has finished
+              t.done();
+            });
           });
         });
       });
