@@ -216,6 +216,58 @@ suite.addAsync(function Spec3(t) {
   });
 });
 
+// SPEC4
+// A logged-in user should be able to fill a shopping cart with menu items
+suite.addAsync(function Spec4(t) {
+
+  // Base url
+  const host = 'localhost:3000';
+
+  // Credentials
+  const email = `mengano${helpers.createRandomString(20)}@email.com`;
+  const password = helpers.createRandomString(16);
+
+  // Create user to work with
+  makeRequest('POST', `http://${host}/users`, {}, {
+    email,
+    password,
+    name: 'Zutanez',
+    address: 'Elm Street',
+  })
+  .then(function(res) {
+
+    // Check user has been created ok
+    t.deepEqual(res.statusCode, 201);
+
+    // "A logged-in user"
+    makeRequest('POST', `http://${host}/tokens`, {}, {
+      email, password,
+    }).
+    then(function(res) {
+
+      // Get token id
+      const token = res.payload.id;
+
+      // "should be able to fill a shopping cart with menu items"
+      makeRequest('POST', `http://${host}/cart`, {token}, {
+        items: [
+          {id: 'Pepperoni', quantity: 2},
+          {id: 'Cheese', quantity: 1},
+        ],
+      })
+      .then(function(res) {
+
+        // Check request is accepted
+        t.deepEqual(res.statusCode, 200);
+        
+        // Notify async test has finished
+        t.done();
+      });
+    });
+  });
+});
+
+
 
 // Initialize and start server
 app.init();
