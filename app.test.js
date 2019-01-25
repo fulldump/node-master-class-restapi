@@ -161,6 +161,79 @@ suite.addAsync(function ListUsersByAdminsOnly(t) {
   });
 });
 
+// TEST: Shopping cart. The user can retrieve a shopping cart and add elements
+// to it
+suite.addAsync(function ShoppingCart(t) {
+
+  const name = helpers.createRandomString(20);
+  const email = name + '@email.com';
+  const password = '123456';
+  const address = 'Elm Street 777';
+
+  // 1: Create User
+  makeRequest('POST', 'http://localhost:3000/users', {}, {email, password, name, address}).then(function(res) {
+
+    t.deepEqual(res.statusCode, 201);
+
+    // 2: Login (create token)
+    makeRequest('POST', 'http://localhost:3000/tokens', {}, {email, password}).then(function(res) {
+
+      t.deepEqual(res.statusCode, 201);
+
+      const token = res.payload.id;
+
+      // 3: Get cart (empty at the beginning)
+      makeRequest('GET', 'http://localhost:3000/cart', {token}).then(function(res) {
+
+        t.deepEqual(res.statusCode, 200);
+        t.deepEqual(res.payload, {items:[]});
+
+        // 4: Add item to cart
+        makeRequest('POST', 'http://localhost:3000/cart', {token}, {
+          id: '2fe59a3c-20c7-11e9-9d20-47dc3ae5af2e',
+          quantity: 3,
+        }).then(function(res) {
+
+          t.deepEqual(res.statusCode, 200);
+          t.deepEqual(res.payload.items[0].quantity, 3);
+
+          // 5: Remove 2 items
+          makeRequest('POST', 'http://localhost:3000/cart', {token}, {
+            id: '2fe59a3c-20c7-11e9-9d20-47dc3ae5af2e',
+            quantity: -2,
+          }).then(function(res) {
+
+            t.deepEqual(res.statusCode, 200);
+            t.deepEqual(res.payload.items[0].quantity, 1);
+
+            // 6: Try to add unexisting id
+            makeRequest('POST', 'http://localhost:3000/cart', {token}, {
+              id: 'unexisting-id',
+              quantity: 3,
+            }).then(function(res) {
+
+              t.deepEqual(res.statusCode, 409);
+              t.deepEqual(res.payload, {
+                error: "Item 'unexisting-id' is not available",
+              });
+
+              // 7: Retrieve cart
+              makeRequest('GET', 'http://localhost:3000/cart', {token}).then(function(res) {
+
+                t.deepEqual(res.statusCode, 200);
+                t.deepEqual(res.payload.items[0].quantity, 1);
+
+                // Notify async test has finished
+                t.done();
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
+
 // Initialize and start server
 app.init();
 app.start();

@@ -188,26 +188,8 @@ suite.addAsync(function Spec3(t) {
         t.deepEqual(res.statusCode, 200);
 
         // Check menu items
-        t.deepEqual(res.payload, [
-          {
-            name: 'Pepperoni',
-            description: 'Classical Italian pepperonini pizzinni.',
-            picture: '/img/pepperoni.png',
-            price: 22.5,
-          },
-          {
-            name: 'Cheese',
-            description: 'Five layers of Italian creamy cheese.',
-            picture: '/img/cheese.png',
-            price: 21.5,
-          },
-          {
-            name: 'CowCow',
-            description: 'Real veal meat.',
-            picture: '/img/cowcow.png',
-            price: 23.9,
-          },
-        ]);
+        var menu = require('./lib/menu');
+        t.deepEqual(res.payload, menu.items);
 
         // Notify async test has finished
         t.done();
@@ -250,10 +232,8 @@ suite.addAsync(function Spec4(t) {
 
       // "should be able to fill a shopping cart with menu items"
       makeRequest('POST', `http://${host}/cart`, {token}, {
-        items: [
-          {id: 'Pepperoni', quantity: 2},
-          {id: 'Cheese', quantity: 1},
-        ],
+        id: '2fe59a3c-20c7-11e9-9d20-47dc3ae5af2e',
+        quantity: 2,
       })
       .then(function(res) {
 

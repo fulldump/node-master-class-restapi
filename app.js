@@ -45,6 +45,10 @@ app.init = function() {
   router.path('/menu')
     .method('GET', authorized(handlers.listMenu));
 
+  router.path('/cart')
+    .method('GET', authorized(handlers.listCart))
+    .method('POST', authorized(handlers.addToCart));
+
   // Generate documentation
   if (process.env.APIDOC) {
     const doc = helpers.genApiDoc(router);

@@ -33,13 +33,20 @@ file has tests (for example `lib/router.js`) you can run its tests with the
 following command:
 
 ```bash
-node lib/rouer.tests.js
+node lib/router.tests.js
 ```
 
 If you want to run all tests:
 
 ```bash
 node tests.js
+```
+
+During development process maybe you want run only one test (or a small subset).
+You can do it with a regex:
+
+```bash
+TESTREGEX=ShoppingCart node tests.js
 ```
 
 # How to check specs
