@@ -79,7 +79,7 @@ In order to develop in a TDD way, I had to write a small testing library
 but later I had to introduce asynchronous tests in order to run the HTTP
 server and execute tests in the same process.
 
-## Decoupling modules
+## Decoupled modules
 
 Most modules was highly coupled (server, router, data). That coupling makes
 it hard to test and reuse without modifying some things for each particular
@@ -126,8 +126,8 @@ when possible.
 
 ## The authentication middleware
 
-Some handlers must be authenticated, in order to reduce code, errors and improve
-maintainability, the handler `handlers.authorized` acts as a
+Some handlers must be authenticated in order to reduce code, errors and improve
+maintainability. The handler `handlers.authorized` acts as a
 middleware/interceptor of other handlers. It receive a handler as input and
 return other handler that will only be executed if a user is authenticated (in
 this case via token header). Also the authenticated user is injected into the
