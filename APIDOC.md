@@ -10,6 +10,8 @@
 * [RetrieveToken](#retrievetoken---get-tokenstokenid)
 * [DeleteToken](#deletetoken---delete-tokenstokenid)
 * [ListMenu (authorized)](#listmenu-authorized---get-menu)
+* [ListCart (authorized)](#listcart-authorized---get-cart)
+* [AddToCart (authorized)](#addtocart-authorized---post-cart)
 
 
 ## ListUsers (authorized) - GET /users
@@ -277,8 +279,40 @@ Transfer-Encoding: chunked
 ```
 
 
+## ListCart (authorized) - GET /cart
+
+Note: This operation requires user authentication via header `Token`.
+
+
+List all cart items. User should be logged in.
+
+Required fields: none
+
+Optional fields: none
+
+Example:
+
+
+
+
+## AddToCart (authorized) - POST /cart
+
+Note: This operation requires user authentication via header `Token`.
+
+
+Add one or more products to user's cart. User should be logged in.
+
+Required fields: none
+
+Optional fields: none
+
+Example:
+
+
+
+
 
 
 ---
-Generated on Sun Jan 13 2019 23:20:46 GMT+0100 (CET)
+Generated on Sat Jan 26 2019 00:16:48 GMT+0100 (CET)
 
